@@ -56,32 +56,41 @@ A nota começa em 100 e cada achado desconta a penalidade da sua gravidade
 
 ## Verificações
 
-### Prontas (v1)
+### Prontas
 
+- **Atualizações** — pacotes de segurança pendentes (`apt`), `unattended-upgrades`
+  ligado e versão do Ubuntu ainda com suporte.
 - **Firewall** — ufw ou firewalld ativo.
+- **Portas abertas** — serviços escutando (`ss`), destacando os abertos para fora.
+- **Serviços de rede** — CUPS e Avahi ligados sem necessidade.
+- **Proteções** — AppArmor, Fail2ban e auditd.
+- **Kernel (sysctl)** — ASLR, ptrace, dmesg/kptr restritos, SYN cookies,
+  redirecionamentos de rede.
+- **Contas e senhas** — UID 0 além de root, `NOPASSWD` no sudo, tamanho mínimo
+  de senha (`pwquality`).
 - **Servidor SSH** — `PermitRootLogin` e `PasswordAuthentication` no
   `sshd_config` (só o arquivo principal; `Include` fica para depois).
 - **Chaves SSH** — permissões de `~/.ssh` (700) e das chaves privadas (600).
+- **Credenciais no home** — `.aws/credentials`, `.git-credentials`, `.netrc`,
+  token do `gh`, `.docker/config.json`, `.pgpass` legíveis por outros.
+- **Arquivos sensíveis** — permissões de `/etc/shadow`, `/etc/passwd`,
+  `/etc/sudoers` e arquivos graváveis por todos no home.
+- **Sessão** — bloqueio automático de tela e login automático (GNOME/GDM).
+- **Disco** — criptografia (LUKS), Secure Boot e dumps de memória.
+- **Inicialização** — serviços do systemd habilitados e autostart do usuário.
+- **Histórico de login** — tentativas falhas (`lastb`; pede root).
+- **Firmware** — atualizações pendentes (`fwupdmgr`).
 
-### Planejadas (todas de leitura, sem custo)
+Cada verificação indica quando precisa de root e, sem ele, devolve um achado
+`INFO` em vez de falhar.
 
-- **Portas abertas** — serviços escutando (`ss -tulpn`); destacar os abertos
-  para fora.
-- **Atualizações de segurança** pendentes (`apt`) e se `unattended-upgrades`
-  está ativo.
-- **Programas que iniciam com o sistema** — serviços do systemd habilitados e
-  autostart do usuário (`~/.config/autostart`).
-- **Contas e acesso** — UID 0 além de root; membros do grupo sudo; (com
-  permissão) contas sem senha.
-- **Bloqueio de tela** automático (`gsettings` do GNOME).
-- **Criptografia de disco** (LUKS via `lsblk`) e Secure Boot (`mokutil`).
-- **Logins recentes e falhas** (`last` / `lastb`; `lastb` pede root).
-- **Arquivos sensíveis** com permissão frouxa no home (world-writable, chaves
-  legíveis por outros).
-- **Firmware** desatualizado (`fwupdmgr get-updates`).
+### Deixadas de fora de propósito
 
-Cada uma só entra com teste e indicando quando precisa de root (degradando para
-`INFO` se não tiver).
+- **Varredura de SUID/SGID em todo o disco** e **arquivos sem dono**: exigem
+  percorrer o sistema inteiro (lento) e como root, e geram muitos falsos
+  alarmes. Ficam para uma versão futura, provavelmente como um modo "completo"
+  opcional. O risco de permissão frouxa já é coberto no home e nos arquivos
+  sensíveis do sistema.
 
 ## Permissões (root)
 

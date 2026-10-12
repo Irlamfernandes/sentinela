@@ -6,10 +6,44 @@ from dataclasses import dataclass
 
 from sentinela.nucleo.ambiente import Ambiente
 from sentinela.nucleo.modelos import Achado
-from sentinela.verificacoes import chaves_ssh, firewall, ssh
+from sentinela.verificacoes import (
+    arquivos,
+    atualizacoes,
+    chaves_ssh,
+    contas,
+    credenciais,
+    disco,
+    firewall,
+    firmware,
+    inicializacao,
+    kernel,
+    login,
+    portas,
+    protecoes,
+    servicos_rede,
+    sessao,
+    ssh,
+)
 
 # Ordem em que as verificações rodam e aparecem.
-VERIFICACOES = (firewall, ssh, chaves_ssh)
+VERIFICACOES = (
+    atualizacoes,
+    firewall,
+    portas,
+    servicos_rede,
+    protecoes,
+    kernel,
+    contas,
+    ssh,
+    chaves_ssh,
+    credenciais,
+    arquivos,
+    sessao,
+    disco,
+    inicializacao,
+    login,
+    firmware,
+)
 
 
 @dataclass(frozen=True)

@@ -12,6 +12,7 @@ import os
 import shutil
 import subprocess
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Protocol
 
@@ -34,6 +35,8 @@ class Ambiente(Protocol):
 
     @property
     def lar(self) -> str: ...
+
+    def hoje(self) -> date: ...
 
     def ler(self, caminho: str) -> str | None: ...
 
@@ -58,6 +61,9 @@ class Sistema:
     @property
     def lar(self) -> str:
         return self._lar
+
+    def hoje(self) -> date:
+        return date.today()
 
     def _alvo(self, caminho: str) -> Path:
         return self._raiz / caminho.lstrip("/")

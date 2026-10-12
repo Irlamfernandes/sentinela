@@ -8,14 +8,25 @@ Ele **só lê** o sistema: nunca muda nada por conta própria. Quem aplica a
 correção é você, seguindo as instruções. Roda offline, sem enviar dados para
 lugar nenhum.
 
-## O que ele verifica (v1)
+## O que ele verifica
 
+- **Atualizações:** pacotes de segurança pendentes, atualização automática e se
+  a versão do Ubuntu ainda tem suporte.
 - **Firewall** ligado (ufw ou firewalld).
+- **Portas abertas** para a rede e **serviços** (CUPS, Avahi) ligados à toa.
+- **Proteções:** AppArmor, Fail2ban, auditd.
+- **Kernel:** ASLR, restrição de ptrace e outros ajustes de segurança.
+- **Contas e senhas:** poder de root duplicado, `sudo` sem senha, tamanho mínimo.
 - **Servidor SSH:** login de root e acesso por senha.
-- **Chaves SSH:** permissões de `~/.ssh` e das chaves privadas.
+- **Chaves SSH** e **credenciais no home** (AWS, Git, Docker, etc.) expostas.
+- **Arquivos sensíveis:** permissões de `/etc/shadow`, `passwd`, `sudoers` e
+  arquivos graváveis por todos no home.
+- **Sessão:** bloqueio de tela e login automático.
+- **Disco:** criptografia, Secure Boot e dumps de memória.
+- **Inicialização**, **histórico de tentativas de login** e **firmware**.
 
-Mais verificações estão no [roteiro](docs/design.md) (portas abertas,
-atualizações pendentes, bloqueio de tela, criptografia de disco e outras).
+Detalhes e o que ficou para depois estão no [design](docs/design.md). Algumas
+verificações mostram mais informação quando você roda com `sudo`.
 
 ## Como usar
 

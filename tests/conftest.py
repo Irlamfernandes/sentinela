@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import date
 
 from sentinela.nucleo.ambiente import SaidaDeComando
 
@@ -19,6 +20,10 @@ class AmbienteFalso:
     comandos: dict[tuple[str, ...], SaidaDeComando] = field(default_factory=dict)
     eh_root: bool = False
     lar: str = "/home/teste"
+    data_de_hoje: date = date(2026, 10, 12)
+
+    def hoje(self) -> date:
+        return self.data_de_hoje
 
     def ler(self, caminho: str) -> str | None:
         return self.arquivos.get(caminho)
